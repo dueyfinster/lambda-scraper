@@ -1,7 +1,8 @@
 process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT'] + '/dist/'
-import PDFToText from './src/pdf';
-import FormHandler from './src/form-handler';
-var multipart = require("parse-multipart");
+import Scraper from './src/scraper';
+import Slack from 'node-slack';
+import moment from 'moment';
+import config from './config';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -10,34 +11,35 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-function processPayload(event){
-  const result = {};
-  const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-
-  if(contentType === 'application/pdf'){
-    result.filename = 'test.pdf'
-    result.data = new Buffer(event.body,'base64');
-    return result;
-  }
-
-  if(event.hasOwnProperty('body-json')) {
-    var bodyBuffer = new Buffer(event['body-json'].toString(),'base64');
-    var boundary = multipart.getBoundary(event.params.header['content-type']);
-    var parts = multipart.Parse(bodyBuffer,boundary)[0];
-    return parts;
-  }
-}
 
 exports.handler = async (event, context, callback) => {
   try {
 
-    console.log(`Event is: ${JSON.stringify(event)}`);
-    const config = processPayload(event);
-    console.log('Form Response is: ' + JSON.stringify(config));
+    const controller = new Scraper();
+    const today = moment().day()-1; 
+    const res = await controller.run();
+    const response = res['Lunch'][today];
+    console.log(`Scraper Response is: ${JSON.stringify(response)}`);
 
-    const controller = new PDFToText(config);
-    const response = await controller.run();
-    console.log(`PDF Response is: ${response}`);
+    var slack = new Slack(config.url);
+    await slack.send({
+          text: "Today's Menu:",
+          username: response.title,
+          attachments: [
+            {
+              "fallback": response.soup1 + ' & ' + response.soup2,
+              "title": "Soups",
+              "text": response.soup1 + '\n' + response.soup2,
+              "color": "#00bcd4"
+            },
+            {
+              "fallback": response.main1 + '\n' + response.main2 + '\n' + response.main3,
+              "title": "Mains",
+              "text": response.main1 + '\n' + response.main2 + '\n' + response.main3,
+              "color": "#1a0dab"
+            }
+          ],
+    });
 
     return context.succeed({ statusCode: 200, body: response, headers: headers });
 

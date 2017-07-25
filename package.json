@@ -4,9 +4,9 @@
   "description": "Processes PDF files on AWS Lambda",
   "main": "bin/index.js",
   "scripts": {
-    "build": "npm run build:init && npm run build:bin && npm run build:js && npm run build:install",
+    "build": "npm run build:init && npm run build:conf && npm run build:js && npm run build:install",
     "build:init": "rm -rf dist && mkdir dist",
-    "build:bin": "cp bin/* dist/",
+    "build:conf": "cp conf/* dist/",
     "build:js": "babel index.js --out-dir dist && babel src --out-dir dist/src",
     "build:install": "cp package.json dist/ && cd dist && npm install --production",
     "package": "npm run build && npm run package:pack",
@@ -30,10 +30,10 @@
   },
   "homepage": "https://github.com/dueyfinster/lambda-scraper#readme",
   "dependencies": {
-    "aws-sdk": "^2.15.0",
     "babel-runtime": "^6.11.6",
-    "busboy": "^0.2.14",
-    "parse-multipart": "^1.0.4"
+    "moment": "^2.18.1",
+    "node-slack": "0.0.7",
+    "scrape-it": "^3.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

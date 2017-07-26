@@ -8,8 +8,9 @@ slack as a message so everyone can have easy visibility. Example of slack messag
 ## How to
 1. Clone this repository
 2. Get the [aws cli][] and login
-3. Create a Lambda function (call it `scraper`)
-4. Run `npm run deploy` - Thats it! Your code is now on AWS Lambda.
+3. Copy `conf/sample.json` to `conf/config.json` and add your Slack Webhook URL
+4. Create a Lambda function (call it `scraper`)
+5. Run `npm run deploy` - Thats it! Your code is now on AWS Lambda.
 
 
 [aws cli]: http://docs.aws.amazon.com/cli/latest/userguide/installing.html

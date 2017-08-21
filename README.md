@@ -1,3 +1,4 @@
+![AWS Lambda Slack Web Scraper](logo.png "AWS Lambda Slack Web Scraper") 
 # AWS Lambda Slack Web Scraper
 
 Scrapes a website (my workplace canteen's menu) and sends it nicely formatted to

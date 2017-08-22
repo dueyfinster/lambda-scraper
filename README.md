@@ -18,4 +18,4 @@ slack as a message so everyone can have easy visibility. Example of slack messag
 
 
 ## Customising the code
-All the code you need to modify is in [src/scraper.js](src/scraper.js). Just add the address of the website you wish to scrape, and pass it an object of what needs to be pulled from the page. See the [scrape-it](https://github.com/IonicaBizau/scrape-it) documentation for more information.
+All the code you need to modify is in [src/scraper.js](src/scraper.js) (for scraping the website) and [src/slack.js](src/slack.js) (for sending the message). Just add the address of the website you wish to scrape, and pass it an object of what needs to be pulled from the page. See the [scrape-it](https://github.com/IonicaBizau/scrape-it) documentation for more information.

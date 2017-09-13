@@ -3,7 +3,7 @@ const scrapeIt = require("scrape-it");
 export default class Scraper {
 
   async run() {
-     return scrapeIt("http://www.ksg.ie/restaurants/ericsson/athlone/menu/index.php", {
+     return scrapeIt("http://www.ksgcatering.ie/restaurants/ericsson/athlone/menu/index.php", {
         Lunch: {
             listItem: '.lunch',
             data: {
